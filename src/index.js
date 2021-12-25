@@ -1,8 +1,5 @@
-import One from "./modules/one";
-import Two from "./modules/two";
+import Timer from "./modules/timer";
 
-const one = One;
-const two = Two;
+const timer = new Timer(false);
 
-one();
-two();
+timer.start();
