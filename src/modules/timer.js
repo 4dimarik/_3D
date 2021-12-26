@@ -1,12 +1,6 @@
 import { numeralsWithNouns } from "../utils";
-import { deadLine } from "./config";
+import { deadLine, nounsList } from "./config";
 
-const nounsList = {
-  day: ["день", "дня", "дней"],
-  hour: ["час", "часа", "часов"],
-  minute: ["минута", "минуты", "минут"],
-  second: ["секунда", "секунды", "секунд"],
-};
 export default class Timer {
   constructor(withWords) {
     this.withWords = true;
@@ -41,16 +35,13 @@ export default class Timer {
   getTwoDigitNumber(num) {
     return String(num).length === 1 ? `0${num}` : `${num}`;
   }
-  isDayHasCome(
-    dateStop = new Date(deadLine).getTime(),
-    dateNow = new Date().getTime()
-  ) {
-    return dateStop <= dateNow;
+  isDayHasCome() {
+    return new Date(deadLine).getTime() <= new Date().getTime();
   }
   render() {
     let dateStop = new Date(deadLine).getTime();
     let dateNow = new Date().getTime();
-    if (this.isDayHasCome(dateStop, dateNow)) {
+    if (this.isDayHasCome(deadLine)) {
       this.stop();
     } else {
       const { days, hours, minutes, seconds } = this.getTimeRemaining(
