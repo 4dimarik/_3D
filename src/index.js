@@ -1,8 +1,16 @@
-import One from "./modules/one";
-import Two from "./modules/two";
+import Santa from "./modules/santa";
 
-const one = One;
-const two = Two;
+const santa = new Santa();
 
-one();
-two();
+document.querySelector("#start").addEventListener("click", () => {
+  if (santa.animationMoveRight) {
+    santa.stopMoveRight();
+    santa.animationMoveRight = null;
+  } else {
+    santa.moveRight();
+  }
+});
+document.querySelector("#reset").addEventListener("click", () => {
+  santa.stopMoveRight();
+  santa.setStartPosition();
+});
