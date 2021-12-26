@@ -1,8 +1,5 @@
-import One from "./modules/one";
-import Two from "./modules/two";
+import DebounceSample from "./modules/debounce_sample";
 
-const one = One;
-const two = Two;
+const debounceSample = DebounceSample;
 
-one();
-two();
+debounceSample();
