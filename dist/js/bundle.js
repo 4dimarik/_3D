@@ -1,1 +1,1 @@
-(()=>{"use strict";console.log("Module One"),console.log("Module Two")})();
+(()=>{"use strict";(()=>{const e=document.querySelector("#input"),t=document.querySelector("#text");e.addEventListener("input",function(e,n){let o,u,c;return function(...e){o=u,u=Date.now(),o&&u-o<=300&&clearTimeout(c),c=setTimeout((()=>(e=>{const{value:n}=e.target;console.log(n),t.innerHTML=n})(...e)),300)}}())})()})();
