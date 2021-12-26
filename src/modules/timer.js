@@ -4,16 +4,17 @@ import { deadLine, nounsList } from "./config";
 export default class Timer {
   constructor(withWords) {
     this.withWords = true;
-    this.timerDays = document.querySelector("#timer-days");
-    this.timerHours = document.querySelector("#timer-hours");
-    this.timerMinutes = document.querySelector("#timer-minutes");
-    this.timerSeconds = document.querySelector("#timer-seconds");
+    this.timer = document.querySelector("#timer");
+    this.timerDays = this.timer.querySelector("#timer-days");
+    this.timerHours = this.timer.querySelector("#timer-hours");
+    this.timerMinutes = this.timer.querySelector("#timer-minutes");
+    this.timerSeconds = this.timer.querySelector("#timer-seconds");
 
     if (withWords) {
-      this.timerDaysAfter = document.querySelector("#timer-days-after");
-      this.timerHoursAfter = document.querySelector("#timer-hours-after");
-      this.timerMinutesAfter = document.querySelector("#timer-minutes-after");
-      this.timerSecondsAfter = document.querySelector("#timer-seconds-after");
+      this.timerDaysAfter = this.timer.querySelector("#timer-days-after");
+      this.timerHoursAfter = this.timer.querySelector("#timer-hours-after");
+      this.timerMinutesAfter = this.timer.querySelector("#timer-minutes-after");
+      this.timerSecondsAfter = this.timer.querySelector("#timer-seconds-after");
     }
   }
 
