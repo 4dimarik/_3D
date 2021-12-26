@@ -1,8 +1,3 @@
-import One from "./modules/one";
-import Two from "./modules/two";
+import Hello from "./modules/hello";
 
-const one = One;
-const two = Two;
-
-one();
-two();
+const hello = new Hello();
