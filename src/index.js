@@ -8,6 +8,7 @@ const timer = new Timer({
     minutesSelector: "#timer-minutes",
     secondsSelector: "#timer-seconds",
   },
+  doubleZero: true,
   // separator: "name",
 });
 

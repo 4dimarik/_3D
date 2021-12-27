@@ -1,14 +1,16 @@
 export default class Timer {
   constructor({
-    deadLine = "2022-01-01",
+    deadLine = "2021-12-27T18:13:00",
     timerSelector,
     format = {},
+    doubleZero = true,
     separator = ":",
   }) {
     this.timerSelector = timerSelector;
     this.formatSelectors = format;
     this.separator = separator;
     this.deadLine = deadLine;
+    this.doubleZero = doubleZero;
     this.init();
   }
   init() {
@@ -26,31 +28,42 @@ export default class Timer {
   }
   start() {
     if (!this.isDateHasCome()) {
-      this.render();
-      this.updateClock = setInterval(this.render.bind(this), 1000);
+      this.handle();
+      this.updateClock = setInterval(this.handle.bind(this), 1000);
+    } else {
+      this.render({
+        days: "0",
+        hours: "0",
+        minutes: "0",
+        seconds: "0",
+      });
     }
   }
   stop() {
     clearInterval(this.updateClock);
   }
-  render() {
-    let dateStop = new Date(this.deadLine).getTime();
-    let dateNow = new Date().getTime();
+  render(dateData) {
+    Object.keys(this.format).forEach((key) => {
+      this.format[key].textContent = this.doubleZero
+        ? this.getTwoDigitNumber(dateData[key])
+        : dateData[key];
+      if (key !== "seconds") {
+        this.format[key].nextElementSibling.textContent = this.setSeparator(
+          this.format[key],
+          dateData[key],
+          key
+        );
+      }
+    });
+  }
+  handle() {
     if (this.isDateHasCome(this.deadLine)) {
       this.stop();
     } else {
+      let dateStop = new Date(this.deadLine).getTime();
+      let dateNow = new Date().getTime();
       const dateData = this.getTimeRemaining(dateStop, dateNow);
-      Object.keys(this.format).forEach((key) => {
-        this.format[key].textContent = this.getTwoDigitNumber(dateData[key]);
-
-        if (key !== "seconds") {
-          this.format[key].nextElementSibling.textContent = this.setSeparator(
-            this.format[key],
-            dateData[key],
-            key
-          );
-        }
-      });
+      this.render(dateData);
     }
   }
   getTimeRemaining(dateStop, dateNow) {
