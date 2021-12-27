@@ -14,7 +14,17 @@ const timer = new Timer({
   separator: "name",
 });
 
-const menu = new Menu();
-const modal = new Modal();
+const menu = new Menu({
+  menuBtnSelector: ".menu",
+  menuSelector: "menu",
+  closeBtnSelector: ".close-btn",
+  toggleClass: "active-menu",
+});
+const modal = new Modal({
+  buttonsClassName: "popup-btn",
+  triggerAreaSelector: "#service-block",
+  modalSelector: ".popup",
+  closeBtnSelector: ".popup-close",
+});
 
 timer.start();

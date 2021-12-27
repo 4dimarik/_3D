@@ -1,9 +1,16 @@
 export default class Menu {
-  constructor() {
-    this.menuBtn = document.querySelector(".menu");
-    this.menu = document.querySelector("menu");
-    this.closeBtn = this.menu.querySelector(".close-btn");
-    this.toggleClass = "active-menu";
+  constructor({ toggleClass = "active-menu", ...rest }) {
+    this.toggleClass = toggleClass;
+    this.init({ ...rest });
+  }
+  init({
+    menuBtnSelector = ".menu",
+    menuSelector = "menu",
+    closeBtnSelector = ".close-btn",
+  }) {
+    this.menuBtn = document.querySelector(menuBtnSelector);
+    this.menu = document.querySelector(menuSelector);
+    this.closeBtn = this.menu.querySelector(closeBtnSelector);
     this.setEventListener();
   }
   handleTarget() {
