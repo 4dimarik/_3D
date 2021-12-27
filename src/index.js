@@ -9,7 +9,7 @@ const timer = new Timer({
     secondsSelector: "#timer-seconds",
   },
   doubleZero: true,
-  // separator: "name",
+  separator: "name",
 });
 
 timer.start();
