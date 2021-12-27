@@ -1,6 +1,14 @@
 export default class Timer {
+  /**
+   *
+   * @param {string} deadLine - Целевая отметка времени
+   * @param {string} timerSelector - разделитель
+   * @param {object} format - составные части временной отметки. Объект css селекторов
+   * @param {boolean} doubleZero - добавлять 0 если число < 10
+   * @param {string } separator - разделитель между составными части временной отметки
+   */
   constructor({
-    deadLine = "2021-12-27T18:13:00",
+    deadLine = "2021-12-27T18:35:00",
     timerSelector,
     format = {},
     doubleZero = true,
@@ -13,6 +21,11 @@ export default class Timer {
     this.doubleZero = doubleZero;
     this.init();
   }
+
+  /**
+   *  Метод инициализации получает элеменыты DOM в которые будут выводиться
+   *  составными части временной отметки
+   */
   init() {
     this.timer = document.querySelector(this.timerSelector);
     this.format = {};
@@ -26,6 +39,12 @@ export default class Timer {
       });
     }
   }
+
+  /**
+   *  Запуск таймера.
+   *  Метод предварительно проверяет не наступила ли целевая отметка времени.
+   *  Если нет запускается интервал обновления времени = 1 сек
+   */
   start() {
     if (!this.isDateHasCome()) {
       this.handle();
@@ -39,25 +58,38 @@ export default class Timer {
       });
     }
   }
+
+  /**
+   * Метод остановки таймера
+   */
   stop() {
     clearInterval(this.updateClock);
   }
+
+  /**
+   * Метод отрисовки временной метки в DOM
+   *
+   * @param {object} dateData - параметры текущей временной метки
+   */
   render(dateData) {
     Object.keys(this.format).forEach((key) => {
       this.format[key].textContent = this.doubleZero
         ? this.getTwoDigitNumber(dateData[key])
         : dateData[key];
-      if (key !== "seconds") {
-        this.format[key].nextElementSibling.textContent = this.setSeparator(
-          this.format[key],
-          dateData[key],
-          key
-        );
-      }
+      this.format[key].nextElementSibling.textContent = this.setSeparator(
+        dateData[key],
+        key
+      );
     });
   }
+
+  /**
+   *  Метод проверяет не наступила ли целевая метка времени.
+   *  Если да таймер останавливается
+   *  Если нет получаются данные текущего времени и запускается метод render
+   */
   handle() {
-    if (this.isDateHasCome(this.deadLine)) {
+    if (this.isDateHasCome()) {
       this.stop();
     } else {
       let dateStop = new Date(this.deadLine).getTime();
@@ -66,6 +98,14 @@ export default class Timer {
       this.render(dateData);
     }
   }
+
+  /**
+   * Метод вычисляет разницу во времени и возвращает объект составных частей времени
+   *
+   * @param {number} dateStop - числовае значение времени .getTime()
+   * @param {number} dateNow - числовае значение времени .getTime()
+   * @returns {{hours: number, seconds: number, minutes: number, days: number}}
+   */
   getTimeRemaining(dateStop, dateNow) {
     let timeRemaining = (dateStop - dateNow) / 1000;
 
@@ -81,17 +121,50 @@ export default class Timer {
       seconds,
     };
   }
+
+  /**
+   * Метод возвращает строку с добавление 0 если число < 10
+   *
+   * @param num - число
+   * @returns {string}
+   */
   getTwoDigitNumber(num) {
     return String(num).length === 1 ? `0${num}` : `${num}`;
   }
+
+  /**
+   * Метод определяет наступила ли целевая дата
+   * @returns {boolean}
+   */
   isDateHasCome() {
     return new Date(this.deadLine).getTime() <= new Date().getTime();
   }
-  setSeparator(element, num = null, key = null) {
-    return this.separator !== "name"
-      ? this.separator
-      : this.getNameSeparator(num, key);
+
+  /**
+   * Метод определяет разделитель
+   *
+   * @param num - количество аттрибута времени
+   * @param key - имя аттрибута времени
+   * @returns {string} - строка представляющая разделитель атрибутов времени
+   */
+  setSeparator(num = null, key = "") {
+    let separator = "";
+    if (this.separator === "name") {
+      separator = this.getNameSeparator(num, key);
+    } else if (key !== "seconds") {
+      separator = this.separator;
+    }
+
+    return separator;
   }
+
+  /**
+   * Метод для склонение наименовая атрибута времеи
+   *
+   * @param num - количество аттрибута времени
+   * @param key - имя аттрибута времени
+   * @returns {string}
+   */
   getNameSeparator(num, key) {
     const nounsList = {
       days: ["день", "дня", "дней"],
@@ -116,6 +189,6 @@ export default class Timer {
         return nouns[2];
       }
     };
-    return numeralsWithNouns(num, nounsList[key]);
+    return numeralsWithNouns(+num, nounsList[key]);
   }
 }

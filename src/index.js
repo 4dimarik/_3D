@@ -11,7 +11,7 @@ const timer = new Timer({
     secondsSelector: "#timer-seconds",
   },
   doubleZero: true,
-  // separator: "name",
+  separator: "name",
 });
 
 const menu = new Menu();
