@@ -1,4 +1,5 @@
 import Timer from "./modules/timer";
+import Validation from "./modules/validation";
 
 const timer = new Timer({
   timerSelector: "#timer",
@@ -13,3 +14,5 @@ const timer = new Timer({
 });
 
 timer.start();
+
+const validation = new Validation();
