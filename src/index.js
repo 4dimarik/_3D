@@ -1,4 +1,5 @@
 import Timer from "./modules/timer";
+import Tabs from "./modules/tabs";
 
 const timer = new Timer({
   timerSelector: "#timer",
@@ -13,3 +14,12 @@ const timer = new Timer({
 });
 
 timer.start();
+
+const tabs = new Tabs({
+  tabPanelSelector: "#service-block",
+  tabPanelItemSelectors: {
+    navSelector: ".service-header",
+    navItemSelector: ".service-header-tab",
+    tabItemSelector: ".service-tab",
+  },
+});
