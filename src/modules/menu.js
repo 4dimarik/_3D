@@ -18,11 +18,13 @@ export default class Menu {
   }
   setEventListener() {
     this.menuBtn.addEventListener("click", this.handleTarget.bind(this));
-    this.closeBtn.addEventListener("click", this.handleTarget.bind(this));
 
     this.menu.addEventListener("click", (e) => {
       const { target } = e;
-      if (target.localName === "a" && target.closest("li")) {
+      if (
+        (target.localName === "a" && target.closest("li")) ||
+        target === this.closeBtn
+      ) {
         this.handleTarget();
       }
     });
