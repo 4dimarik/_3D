@@ -8,7 +8,7 @@ export default class Menu {
     menuSelector = "menu",
     closeBtnSelector = ".close-btn",
   }) {
-    this.menuBtn = document.querySelector(menuBtnSelector);
+    this.menuBtnSelector = menuBtnSelector;
     this.menu = document.querySelector(menuSelector);
     this.closeBtn = this.menu.querySelector(closeBtnSelector);
     this.setEventListener();
@@ -17,14 +17,19 @@ export default class Menu {
     this.menu.classList.toggle(this.toggleClass);
   }
   setEventListener() {
-    this.menuBtn.addEventListener("click", this.handleTarget.bind(this));
-
-    this.menu.addEventListener("click", (e) => {
+    document.addEventListener("click", (e) => {
       const { target } = e;
-      if (
-        (target.localName === "a" && target.closest("li")) ||
-        target === this.closeBtn
-      ) {
+      const isMenuActive = this.menu.classList.contains(this.toggleClass);
+      if (target.closest("menu")) {
+        if (
+          (target.localName === "a" && target.closest("li")) ||
+          target === this.closeBtn
+        ) {
+          this.handleTarget();
+        }
+      } else if (isMenuActive) {
+        this.menu.classList.remove(this.toggleClass);
+      } else if (target.closest(this.menuBtnSelector)) {
         this.handleTarget();
       }
     });
