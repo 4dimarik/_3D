@@ -1,5 +1,7 @@
 import Timer from "./modules/timer";
-import Tabs from "./modules/tabs";
+import Menu from "./modules/menu";
+import Modal from "./modules/modal";
+import Validation from "./modules/validation";
 
 const timer = new Timer({
   timerSelector: "#timer",
@@ -12,8 +14,21 @@ const timer = new Timer({
   doubleZero: true,
   separator: "name",
 });
-
 timer.start();
+
+const menu = new Menu({
+  menuBtnSelector: ".menu",
+  menuSelector: "menu",
+  closeBtnSelector: ".close-btn",
+  toggleClass: "active-menu",
+});
+const modal = new Modal({
+  buttonsClassName: "popup-btn",
+  triggerAreaSelector: "#service-block",
+  modalSelector: ".popup",
+  closeBtnSelector: ".popup-close",
+});
+const validation = new Validation();
 
 const tabs = new Tabs({
   tabPanelSelector: "#service-block",
@@ -23,3 +38,5 @@ const tabs = new Tabs({
     tabItemSelector: ".service-tab",
   },
 });
+
+
