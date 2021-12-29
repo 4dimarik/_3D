@@ -12,7 +12,7 @@ export default class Validation {
   }
   formFieldsValidation(target) {
     const { name, value, type } = target;
-    if (type === "text" && name === "user_message") {
+    if (type === "text" || name === "user_message") {
       target.value = value.replace(/[^а-я -]/gi, "");
     } else if (type === "email") {
       target.value = value.replace(/[^a-z0-9@\-_.!~*']/gi, "");
