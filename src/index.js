@@ -1,4 +1,7 @@
 import Timer from "./modules/timer";
+import Menu from "./modules/menu";
+import Modal from "./modules/modal";
+import Validation from "./modules/validation";
 
 const timer = new Timer({
   timerSelector: "#timer",
