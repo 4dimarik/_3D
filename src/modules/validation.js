@@ -1,7 +1,6 @@
 export default class Validation {
   constructor() {
     this.setEventListener();
-    console.log("va");
   }
   setEventListener() {
     document.addEventListener("input", (e) => {
@@ -10,7 +9,6 @@ export default class Validation {
     document.addEventListener(
       "blur",
       (e) => {
-        console.log(e);
         this.validation(e);
       },
       true
