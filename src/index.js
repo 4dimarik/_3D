@@ -3,6 +3,7 @@ import Menu from "./modules/menu";
 import Modal from "./modules/modal";
 import Validation from "./modules/validation";
 import Tabs from "./modules/tabs";
+import Slider from "./modules/slider";
 
 const timer = new Timer({
   timerSelector: "#timer",
@@ -38,4 +39,14 @@ const tabs = new Tabs({
     navItemSelector: ".service-header-tab",
     tabItemSelector: ".service-tab",
   },
+});
+
+const slider = new Slider({
+  sliderBlockSelector: ".portfolio-content",
+  slideSelector: ".portfolio-item",
+  // activeSlideClass: "portfolio-item-active",
+  slideBtnClass: "portfolio-btn",
+  dotsBlockSelector: ".portfolio-dots",
+  dotClass: "dot",
+  // dotActiveClass: "dot-active",
 });
