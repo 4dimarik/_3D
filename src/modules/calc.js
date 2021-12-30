@@ -2,6 +2,7 @@ export default class Calc {
   constructor({ price = 100, selectors }) {
     this.price = price;
     this.selectors = selectors;
+    this.totalValue = 0;
     this.init({ ...selectors });
     this.setEventListener();
   }
@@ -14,11 +15,10 @@ export default class Calc {
   }
   count() {
     const typeValue = +this.fields.type.value;
-    const squareValue = this.fields.square.value;
+    const squareValue = +this.fields.square.value;
     let countValue = +this.fields.count.value;
     let dayValue = +this.fields.day.value;
-
-    let totalValue = 0;
+    console.log(squareValue);
 
     if (!countValue) {
       countValue = 1;
@@ -37,15 +37,32 @@ export default class Calc {
     }
 
     if (typeValue && squareValue) {
-      totalValue = this.price * typeValue * squareValue * countValue * dayValue;
+      this.totalValue =
+        this.price * typeValue * squareValue * countValue * dayValue;
+      // console.log(this.price, typeValue, squareValue, countValue, dayValue);
+      // this.setTotalValue();
+      // console.log(this.totalValue);
     } else {
-      totalValue = 0;
+      this.totalValue = 0;
     }
-    this.fields.total.textContent = totalValue;
+    this.setTotalValue();
+    // this.fields.total.textContent = 0;
   }
   setEventListener() {
     this.calcBlock.addEventListener("input", () => {
       this.count();
     });
+  }
+  setTotalValue() {
+    const animationTotalValue = requestAnimationFrame(
+      this.setTotalValue.bind(this)
+    );
+    let currentTotalValue = +this.fields.total.textContent;
+    if (currentTotalValue >= this.totalValue) {
+      this.fields.total.textContent = this.totalValue;
+      cancelAnimationFrame(animationTotalValue);
+    } else {
+      this.fields.total.textContent = currentTotalValue + 20;
+    }
   }
 }
