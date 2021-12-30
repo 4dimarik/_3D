@@ -15,7 +15,9 @@ export default class Validation {
     );
   }
   calcValidation(target) {
-    target.value = target.value.replace(/[^\d]/g, "");
+    if (target.type === "text") {
+      target.value = target.value.replace(/[^\d]/g, "");
+    }
   }
   formFieldsValidation(target, eventType) {
     const { name, value, type } = target;

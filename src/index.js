@@ -4,6 +4,7 @@ import Modal from "./modules/modal";
 import Validation from "./modules/validation";
 import Tabs from "./modules/tabs";
 import Slider from "./modules/slider";
+import Calc from "./modules/calc";
 
 const timer = new Timer({
   timerSelector: "#timer",
@@ -49,4 +50,18 @@ const slider = new Slider({
   dotsBlockSelector: ".portfolio-dots",
   dotClass: "dot",
   // dotActiveClass: "dot-active",
+});
+
+const calc = new Calc({
+  price: 100,
+  selectors: {
+    calcBlock: ".calc-block",
+    fields: {
+      type: ".calc-type",
+      square: ".calc-square",
+      count: ".calc-count",
+      day: ".calc-day",
+      total: "#total",
+    },
+  },
 });
