@@ -1,13 +1,21 @@
+import { animate } from "./helpers";
+
 export default class Modal {
   constructor({ buttonsClassName, ...rest }) {
     this.buttonsClassName = buttonsClassName;
     this.animationIsOn = false;
     this.init({ ...rest });
   }
-  init({ triggerAreaSelector, modalSelector, closeBtnSelector }) {
+  init({
+    triggerAreaSelector,
+    modalSelector,
+    closeBtnSelector,
+    modalContentSelector,
+  }) {
     this.triggerAreaSelector = document.querySelector(triggerAreaSelector);
     this.modal = document.querySelector(modalSelector);
     this.closeBtn = this.modal.querySelector(closeBtnSelector);
+    this.modalContentSelector = modalContentSelector;
     this.setEventListener();
     this.animationInit();
   }
@@ -17,26 +25,17 @@ export default class Modal {
       const { target } = e;
       if ([...target.classList].includes(this.buttonsClassName)) {
         this.modal.style.display = "block";
-        this.animation();
+        this.toggleModal(true);
       }
     });
     this.modal.addEventListener("click", (e) => {
       const { target } = e;
       if (target === this.closeBtn) {
-        this.modal.style.display = "none";
-        this.animationInit();
+        this.toggleModal(false);
+      } else if (!target.closest(this.modalContentSelector)) {
+        this.toggleModal(false);
       }
     });
-  }
-
-  getModalSomeStyle() {
-    let { top, opacity } = getComputedStyle(this.modal);
-    top = +top.replace("px", "");
-    opacity = +opacity;
-    return {
-      top,
-      opacity,
-    };
   }
   animationInit() {
     if (window.innerWidth > 768) {
@@ -47,16 +46,27 @@ export default class Modal {
       this.modal.style.opacity = 1;
     }
   }
-  animation() {
+  toggleModal(show) {
+    const modalBlock = this.modal;
+    const animateValue = show
+      ? (progress) => progress
+      : (progress) => 1 - +progress;
+    const animateCompleted = show
+      ? () => {}
+      : () => {
+          modalBlock.style.display = "none";
+        };
     if (this.animationIsOn) {
-      this.madalOpenAnimation = requestAnimationFrame(
-        this.animation.bind(this)
-      );
-      let { opacity } = this.getModalSomeStyle();
-      this.modal.style.opacity = opacity + 0.03 < 1 ? `${opacity + 0.03}` : "1";
-      if (this.modal.style.opacity === "1") {
-        cancelAnimationFrame(this.madalOpenAnimation);
-      }
+      animate({
+        duration: 600,
+        timing(timeFraction) {
+          return timeFraction;
+        },
+        draw(progress) {
+          modalBlock.style.opacity = animateValue(progress);
+        },
+        completed: animateCompleted,
+      });
     }
   }
 }

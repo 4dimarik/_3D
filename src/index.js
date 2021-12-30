@@ -29,6 +29,7 @@ const modal = new Modal({
   buttonsClassName: "popup-btn",
   triggerAreaSelector: "#service-block",
   modalSelector: ".popup",
+  modalContentSelector: ".popup-content",
   closeBtnSelector: ".popup-close",
 });
 const validation = new Validation();

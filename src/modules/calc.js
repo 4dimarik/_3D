@@ -1,4 +1,4 @@
-import { debounce } from "../utils";
+import { debounce, animate } from "./helpers";
 export default class Calc {
   constructor({ price = 100, selectors }) {
     this.price = price;
@@ -35,31 +35,29 @@ export default class Calc {
     } else {
       dayValue = 1;
     }
-
+    const totalBlock = this.fields.total;
+    let totalValue = 0;
     if (typeValue && squareValue) {
-      this.totalValue =
-        this.price * typeValue * squareValue * countValue * dayValue;
+      totalValue = this.price * typeValue * squareValue * countValue * dayValue;
+
+      animate({
+        duration: 500,
+        timing(timeFraction) {
+          return timeFraction;
+        },
+        draw(progress) {
+          totalBlock.textContent = Math.trunc(progress * totalValue);
+        },
+      });
     } else {
-      this.totalValue = 0;
+      totalValue = 0;
+      totalBlock.textContent = 0;
     }
-    this.setTotalValue();
   }
   setEventListener() {
     this.calcBlock.addEventListener(
       "input",
-      debounce(this.count.bind(this), 400)
+      debounce(this.count.bind(this), 300)
     );
-  }
-  setTotalValue() {
-    const animationTotalValue = requestAnimationFrame(
-      this.setTotalValue.bind(this)
-    );
-    let currentTotalValue = +this.fields.total.textContent;
-    if (currentTotalValue >= this.totalValue) {
-      this.fields.total.textContent = this.totalValue;
-      cancelAnimationFrame(animationTotalValue);
-    } else {
-      this.fields.total.textContent = currentTotalValue + 20;
-    }
   }
 }
