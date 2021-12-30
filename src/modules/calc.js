@@ -1,3 +1,4 @@
+import { debounce } from "../utils";
 export default class Calc {
   constructor({ price = 100, selectors }) {
     this.price = price;
@@ -18,7 +19,6 @@ export default class Calc {
     const squareValue = +this.fields.square.value;
     let countValue = +this.fields.count.value;
     let dayValue = +this.fields.day.value;
-    console.log(squareValue);
 
     if (!countValue) {
       countValue = 1;
@@ -39,19 +39,16 @@ export default class Calc {
     if (typeValue && squareValue) {
       this.totalValue =
         this.price * typeValue * squareValue * countValue * dayValue;
-      // console.log(this.price, typeValue, squareValue, countValue, dayValue);
-      // this.setTotalValue();
-      // console.log(this.totalValue);
     } else {
       this.totalValue = 0;
     }
     this.setTotalValue();
-    // this.fields.total.textContent = 0;
   }
   setEventListener() {
-    this.calcBlock.addEventListener("input", () => {
-      this.count();
-    });
+    this.calcBlock.addEventListener(
+      "input",
+      debounce(this.count.bind(this), 400)
+    );
   }
   setTotalValue() {
     const animationTotalValue = requestAnimationFrame(
