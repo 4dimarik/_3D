@@ -5,6 +5,7 @@ import Validation from "./modules/validation";
 import Tabs from "./modules/tabs";
 import Slider from "./modules/slider";
 import Calc from "./modules/calc";
+import SendForm from "./modules/sendForm";
 
 const timer = new Timer({
   timerSelector: "#timer",
@@ -33,7 +34,6 @@ const modal = new Modal({
   closeBtnSelector: ".popup-close",
 });
 const validation = new Validation();
-
 const tabs = new Tabs({
   tabPanelSelector: "#service-block",
   tabPanelItemSelectors: {
@@ -42,7 +42,6 @@ const tabs = new Tabs({
     tabItemSelector: ".service-tab",
   },
 });
-
 const slider = new Slider({
   sliderBlockSelector: ".portfolio-content",
   slideSelector: ".portfolio-item",
@@ -52,7 +51,6 @@ const slider = new Slider({
   dotClass: "dot",
   // dotActiveClass: "dot-active",
 });
-
 const calc = new Calc({
   price: 100,
   selectors: {
@@ -65,4 +63,9 @@ const calc = new Calc({
       total: "#total",
     },
   },
+});
+
+const sendForm = new SendForm({
+  formId: "form1",
+  someElem: [{ type: "block", id: "total" }],
 });
