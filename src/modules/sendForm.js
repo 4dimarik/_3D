@@ -17,7 +17,7 @@ export default class SendForm {
     this.form.append(this.statusBlock);
 
     this.setValidatePattern();
-    this.setTestData();
+    //this.setTestData();
 
     this.form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -84,7 +84,7 @@ export default class SendForm {
       user_name: "[а-яА-Я ]+",
       user_email: "[a-z0-9@\\-_.!~*']+",
       user_phone: "[0-9()\\-+]+",
-      user_message: "[а-яА-Я 0-9.,;:\\-]",
+      user_message: "[а-яА-Я 0-9.,;:\\-]+",
     };
 
     formData.forEach((val, key) => {
@@ -108,6 +108,7 @@ export default class SendForm {
         user_name: "Vasya",
         user_email: "vasya~-'$%#*@mail.ru",
         user_phone: "+7 903 755-00-55",
+        user_message: " Какой-то текст; 123",
       },
     ];
     formData.forEach((val, key) => {

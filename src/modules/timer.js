@@ -8,7 +8,7 @@ export default class Timer {
    * @param {string } separator - разделитель между составными части временной отметки
    */
   constructor({
-    deadLine = "2021-12-27T18:35:00",
+    deadLine = "2022-02-01T18:35:00",
     timerSelector,
     format = {},
     doubleZero = true,

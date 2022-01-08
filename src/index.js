@@ -10,13 +10,13 @@ import SendForm from "./modules/sendForm";
 const timer = new Timer({
   timerSelector: "#timer",
   format: {
-    daysSelector: "#timer-days",
+    // daysSelector: "#timer-days",
     hoursSelector: "#timer-hours",
     minutesSelector: "#timer-minutes",
     secondsSelector: "#timer-seconds",
   },
   doubleZero: true,
-  separator: "name",
+  // separator: "name",
 });
 timer.start();
 
@@ -65,7 +65,15 @@ const calc = new Calc({
   },
 });
 
-const sendForm = new SendForm({
-  formId: "form1",
-  someElem: [{ type: "block", id: "total" }],
-});
+const sendForms = [
+  new SendForm({
+    formId: "form1",
+    someElem: [{ type: "block", id: "total" }],
+  }),
+  new SendForm({
+    formId: "form2",
+  }),
+  new SendForm({
+    formId: "form3",
+  }),
+];

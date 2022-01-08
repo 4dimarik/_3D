@@ -1,3 +1,5 @@
+import { animate } from "./helpers";
+
 export default class Menu {
   constructor({ toggleClass = "active-menu", ...rest }) {
     this.toggleClass = toggleClass;
@@ -32,6 +34,30 @@ export default class Menu {
       } else if (target.closest(this.menuBtnSelector)) {
         this.handleTarget();
       }
+    });
+
+    document.addEventListener("click", (e) => {
+      if (e.target.matches("li>a[href^='#']")) {
+        e.preventDefault();
+        this.smoothScroll(e.target);
+      } else if (e.target.closest("main>a[href^='#']")) {
+        e.preventDefault();
+        this.smoothScroll(e.target.closest("main>a[href^='#']"));
+      }
+    });
+  }
+  smoothScroll(target) {
+    const anchorElementId = target.href.replace(/http.*#/g, "");
+    const anchorElement = document.getElementById(anchorElementId);
+    const top = anchorElement.offsetTop;
+    animate({
+      duration: 500,
+      timing(timeFraction) {
+        return timeFraction;
+      },
+      draw(progress) {
+        window.scrollTo(0, progress * top);
+      },
     });
   }
 }
