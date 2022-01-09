@@ -10,13 +10,13 @@ import SendForm from "./modules/sendForm";
 const timer = new Timer({
   timerSelector: "#timer",
   format: {
-    // daysSelector: "#timer-days",
+    daysSelector: "#timer-days",
     hoursSelector: "#timer-hours",
     minutesSelector: "#timer-minutes",
     secondsSelector: "#timer-seconds",
   },
   doubleZero: true,
-  // separator: "name",
+  separator: "name",
 });
 timer.start();
 
