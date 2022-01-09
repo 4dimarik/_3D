@@ -57,7 +57,7 @@ export default class SendForm {
   async sendData(data) {
     try {
       const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts1",
+        "https://jsonplaceholder.typicode.com/posts",
         {
           method: "POST",
           body: JSON.stringify(data),
@@ -94,12 +94,11 @@ export default class SendForm {
     });
   }
   showStatus(status, target) {
-    console.log(target);
     const alertClass = `alert-${status}`;
     this.statusBlock.classList.add(alertClass);
     this.form.append(this.statusBlock);
     this.statusBlock.textContent = this.statusMessages[status];
-    setInterval(() => {
+    setTimeout(() => {
       this.statusBlock.classList.remove(alertClass);
       this.statusBlock.remove();
       if (target.id === "form3") {
