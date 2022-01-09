@@ -44,7 +44,7 @@ export default class Menu {
     });
   }
   smoothScroll(target) {
-    const anchorElementId = target.href.replace(/http.*#/g, "");
+    const anchorElementId = target.href.replace(/.*#/g, "");
     const anchorElement = document.getElementById(anchorElementId);
     const anchorElementTop = anchorElement.offsetTop;
     const currentTop = window.pageYOffset;
