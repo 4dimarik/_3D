@@ -1,4 +1,5 @@
 import Modal from "./modal";
+import Validation from "./validation";
 
 export default class SendForm {
   constructor({ formId = null, someElem = [] }) {
@@ -18,7 +19,6 @@ export default class SendForm {
     this.statusBlock = document.createElement("div");
 
     this.setValidateOptions();
-    //this.setTestData();
 
     this.form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -80,16 +80,17 @@ export default class SendForm {
   }
   setValidateOptions() {
     const formData = new FormData(this.form);
-    const patterns = {
-      user_name: "[а-яА-Я ]{2,}",
-      user_email: "[a-z0-9@\\-_.!~*']+",
-      user_phone: "[0-9()\\-+]{6,}",
-      user_message: "[а-яА-Я 0-9.,;:\\-]+",
-    };
+    // const patterns = {
+    //   user_name: "[а-яА-Я ]{2,}",
+    //   user_email: "[a-z0-9@\\-_.!~*']+",
+    //   user_phone: "[0-9()\\-+]{6,}",
+    //   user_message: "[а-яА-Я 0-9.,;:\\-]+",
+    // };
+    const patterns = Validation.patterns;
 
     formData.forEach((val, key) => {
       const formField = this.form.querySelector(`*[name=${key}]`);
-      formField.pattern = patterns[key];
+      formField.pattern = patterns[key].submit;
       formField.required = true;
     });
   }

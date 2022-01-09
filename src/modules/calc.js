@@ -39,6 +39,16 @@ export default class Calc {
     let totalValue = 0;
     if (typeValue && squareValue) {
       totalValue = this.price * typeValue * squareValue * countValue * dayValue;
+      const currentTotalValue = +totalBlock.textContent;
+      const drawFunc =
+        currentTotalValue < totalValue
+          ? (progress) =>
+              Math.abs(
+                Math.trunc(progress * (currentTotalValue - totalValue))
+              ) + currentTotalValue
+          : (progress) =>
+              currentTotalValue -
+              Math.trunc(progress * (currentTotalValue - totalValue));
 
       animate({
         duration: 500,
@@ -46,7 +56,7 @@ export default class Calc {
           return timeFraction;
         },
         draw(progress) {
-          totalBlock.textContent = Math.trunc(progress * totalValue);
+          totalBlock.textContent = drawFunc(progress);
         },
       });
     } else {
