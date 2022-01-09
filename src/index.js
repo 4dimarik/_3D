@@ -27,9 +27,11 @@ const menu = new Menu({
   toggleClass: "active-menu",
 });
 const modal = new Modal({
+  modalSelector: ".popup",
+});
+modal.init({
   buttonsClassName: "popup-btn",
   triggerAreaSelector: "#service-block",
-  modalSelector: ".popup",
   modalContentSelector: ".popup-content",
   closeBtnSelector: ".popup-close",
 });

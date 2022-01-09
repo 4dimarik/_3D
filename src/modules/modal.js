@@ -1,23 +1,22 @@
 import { animate } from "./helpers";
 
 export default class Modal {
-  constructor({ buttonsClassName, ...rest }) {
-    this.buttonsClassName = buttonsClassName;
+  constructor({ modalSelector }) {
+    this.modal = document.querySelector(modalSelector);
     this.animationIsOn = false;
-    this.init({ ...rest });
+    this.animationInit();
   }
   init({
     triggerAreaSelector,
-    modalSelector,
+    buttonsClassName,
     closeBtnSelector,
     modalContentSelector,
   }) {
     this.triggerAreaSelector = document.querySelector(triggerAreaSelector);
-    this.modal = document.querySelector(modalSelector);
+    this.buttonsClassName = buttonsClassName;
     this.closeBtn = this.modal.querySelector(closeBtnSelector);
     this.modalContentSelector = modalContentSelector;
     this.setEventListener();
-    this.animationInit();
   }
 
   setEventListener() {
@@ -38,21 +37,17 @@ export default class Modal {
     });
   }
   animationInit() {
-    if (window.innerWidth > 768) {
-      this.animationIsOn = true;
-      this.modal.style.opacity = 0;
-    } else {
-      this.animationIsOn = false;
-      this.modal.style.opacity = 1;
-    }
+    this.animationIsOn = window.innerWidth > 768;
   }
-  toggleModal(show) {
-    const modalBlock = this.modal;
+  toggleModal(show, modalBlock = null) {
+    modalBlock = modalBlock ? modalBlock : this.modal;
     const animateValue = show
       ? (progress) => progress
       : (progress) => 1 - +progress;
     const animateCompleted = show
-      ? () => {}
+      ? () => {
+          modalBlock.style.display = "block";
+        }
       : () => {
           modalBlock.style.display = "none";
         };
@@ -67,6 +62,8 @@ export default class Modal {
         },
         completed: animateCompleted,
       });
+    } else {
+      animateCompleted();
     }
   }
 }

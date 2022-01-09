@@ -22,25 +22,22 @@ export default class Menu {
     document.addEventListener("click", (e) => {
       const { target } = e;
       const isMenuActive = this.menu.classList.contains(this.toggleClass);
-      if (target.closest("menu")) {
-        if (
-          (target.localName === "a" && target.closest("li")) ||
-          target === this.closeBtn
-        ) {
-          this.handleTarget();
-        }
-      } else if (isMenuActive) {
-        this.menu.classList.remove(this.toggleClass);
-      } else if (target.closest(this.menuBtnSelector)) {
+      if (target.closest(this.menuBtnSelector)) {
+        // открыть/закрыть меню при нажатии на кнопку
         this.handleTarget();
-      }
-    });
-
-    document.addEventListener("click", (e) => {
-      if (e.target.matches("li>a[href^='#']")) {
-        e.preventDefault();
+      } else if (target.matches("menu>ul>li>a[href^='#']")) {
+        // закрыть меню и переместиться по якорю при выборе пункты меню
+        this.handleTarget();
         this.smoothScroll(e.target);
-      } else if (e.target.closest("main>a[href^='#']")) {
+      } else if (target === this.closeBtn) {
+        // закрыть меню и при нажатии кнопки close-btn
+        e.preventDefault();
+        this.handleTarget();
+      } else if (!target.closest("menu") && isMenuActive) {
+        // закрыть меню и при нажатии вне области меню
+        this.menu.classList.remove(this.toggleClass);
+      } else if (target.closest("main>a[href^='#']")) {
+        // плавное перемещение к #service-block
         e.preventDefault();
         this.smoothScroll(e.target.closest("main>a[href^='#']"));
       }
@@ -49,14 +46,17 @@ export default class Menu {
   smoothScroll(target) {
     const anchorElementId = target.href.replace(/http.*#/g, "");
     const anchorElement = document.getElementById(anchorElementId);
-    const top = anchorElement.offsetTop;
+    const anchorElementTop = anchorElement.offsetTop;
+    const currentTop = window.pageYOffset;
+    const top = anchorElementTop - currentTop;
+
     animate({
       duration: 500,
       timing(timeFraction) {
         return timeFraction;
       },
       draw(progress) {
-        window.scrollTo(0, progress * top);
+        window.scrollTo(0, progress * top + currentTop);
       },
     });
   }

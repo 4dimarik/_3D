@@ -1,10 +1,12 @@
+import Modal from "./modal";
+
 export default class SendForm {
   constructor({ formId = null, someElem = [] }) {
     this.id = formId;
     if (formId) this.init(someElem);
     this.statusMessages = {
       load: '<i class="fas fa-lg fa-spinner fa-pulse"></i>',
-      error: "Ошибка!",
+      warning: "Ошибка отправки!",
       success: "Спасибо! Наш менеджер с вами свяжется!",
     };
   }
@@ -14,14 +16,12 @@ export default class SendForm {
     this.btnText = this.btn.textContent;
 
     this.statusBlock = document.createElement("div");
-    this.form.append(this.statusBlock);
 
-    this.setValidatePattern();
+    this.setValidateOptions();
     //this.setTestData();
 
     this.form.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const formData = new FormData(e.target);
       const formBody = {};
 
@@ -45,10 +45,10 @@ export default class SendForm {
           formData.forEach((val, key) => {
             this.form.querySelector(`*[name=${key}]`).value = "";
           });
-          this.statusBlock.textContent = this.statusMessages.success;
+          this.showStatus("success", e.target);
           console.log(responseData);
         } else {
-          this.statusBlock.textContent = this.statusMessages.error;
+          this.showStatus("warning", e.target);
         }
         this.btn.textContent = this.btnText;
       });
@@ -57,7 +57,7 @@ export default class SendForm {
   async sendData(data) {
     try {
       const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts",
+        "https://jsonplaceholder.typicode.com/posts1",
         {
           method: "POST",
           body: JSON.stringify(data),
@@ -78,41 +78,36 @@ export default class SendForm {
       return { ok: false };
     }
   }
-  setValidatePattern() {
+  setValidateOptions() {
     const formData = new FormData(this.form);
     const patterns = {
-      user_name: "[а-яА-Я ]+",
+      user_name: "[а-яА-Я ]{2,}",
       user_email: "[a-z0-9@\\-_.!~*']+",
-      user_phone: "[0-9()\\-+]+",
+      user_phone: "[0-9()\\-+]{6,}",
       user_message: "[а-яА-Я 0-9.,;:\\-]+",
     };
 
     formData.forEach((val, key) => {
-      this.form.querySelector(`*[name=${key}]`).pattern = patterns[key];
+      const formField = this.form.querySelector(`*[name=${key}]`);
+      formField.pattern = patterns[key];
+      formField.required = true;
     });
   }
-  setTestData() {
-    const formData = new FormData(this.form);
-    const testData = [
-      {
-        user_name: "Вася",
-        user_email: "vasya@mail.ru",
-        user_phone: "+7(903)755-00-55",
-      },
-      {
-        user_name: "Вася",
-        user_email: "vasya~-'*@mail.ru",
-        user_phone: "+7(903)755-00-55",
-      },
-      {
-        user_name: "Vasya",
-        user_email: "vasya~-'$%#*@mail.ru",
-        user_phone: "+7 903 755-00-55",
-        user_message: " Какой-то текст; 123",
-      },
-    ];
-    formData.forEach((val, key) => {
-      this.form.querySelector(`*[name=${key}]`).value = testData[2][key];
-    });
+  showStatus(status, target) {
+    console.log(target);
+    const alertClass = `alert-${status}`;
+    this.statusBlock.classList.add(alertClass);
+    this.form.append(this.statusBlock);
+    this.statusBlock.textContent = this.statusMessages[status];
+    setInterval(() => {
+      this.statusBlock.classList.remove(alertClass);
+      this.statusBlock.remove();
+      if (target.id === "form3") {
+        const modal = new Modal({
+          modalSelector: ".popup",
+        });
+        modal.toggleModal(false, target.closest(".popup"));
+      }
+    }, 5000);
   }
 }
