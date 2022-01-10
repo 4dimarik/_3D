@@ -67,7 +67,6 @@ export default class Validation {
     return value;
   }
   static userNameConvert(string) {
-    console.log("userNameConvert");
     return string.replace(/[а-я]{2,}/gi, (str) =>
       [...str]
         .map((char, index) =>
